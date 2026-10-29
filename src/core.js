@@ -6,7 +6,8 @@ const TAU = Math.PI * 2;
 const PAL = {
   paper: '#F3EBDC', ink: '#2B2233', clay: '#D97757', clayDk: '#A84D33', clayLt: '#F2A283',
   night: '#1F2550', indigo: '#2F3C7A', rose: '#E27A92', ochre: '#E8AA38', sap: '#6E9F58',
-  teal: '#3A9C98', violet: '#7B5CA8', cream: '#FFF5E2', sky: '#8EC3E6'
+  teal: '#3A9C98', violet: '#7B5CA8', cream: '#FFF5E2', sky: '#8EC3E6',
+  slate: '#4A4757', slateDk: '#302D3B', slateLt: '#837E9C'
 };
 
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
@@ -21,8 +22,8 @@ const jit = a => (random() * 2 - 1) * a;
 // Each boil drawing holds for several frames, so whatever isn't moving must draw the same until the next one. But a moving
 // thing uses a different amount of randomness each frame, which shifts the stream for everything drawn after it and makes
 // that re-boil every frame (jitter). boilSeed(key) restarts the stream from the boil frame and a key (any string or
-// number) that's the same every frame: call it before each separate element. clawd() does this for itself and its parts.
-let BOILN = 0, CLAWD_N = 0;
+// number) that's the same every frame: call it before each separate element. grok() does this for itself and its parts.
+let BOILN = 0, GROK_N = 0;
 const boilSeed = key => { let h = 2166136261; for (const c of key + '|' + BOILN) h = Math.imul(h ^ c.charCodeAt(0), 16777619); randomSeed(h >>> 0); };
 
 // ---------- timing helpers (everything is a pure function of t; no state survives between frames) ----------
@@ -63,7 +64,7 @@ const onTwos = t => Math.floor(t * 12 + 1e-6) / 12;
 // Point on a thrown or jumping arc from p0 to p1, peaking h px above the straight line; k = 0..1 along the flight.
 const arcPt = (p0, p1, h, k) => [lerp(p0[0], p1[0], k), lerp(p0[1], p1[1], k) - h * 4 * k * (1 - k)];
 // A hop that takes off at t0 and lands at t1, h body units high: crouch (anticipation), stretch on takeoff,
-// round at the top, squash on landing and spring back. Returns { dy, sq } to spread into clawd().
+// round at the top, squash on landing and spring back. Returns { dy, sq } to spread into grok().
 function jump(t, t0, t1, h = 3) {
   if (t < t0 - .12) return { dy: 0, sq: 0 };
   if (t < t0) return { dy: 0, sq: .18 * ease(seg(t, t0 - .12, t0)) };
@@ -77,7 +78,7 @@ function take(t, t0, amt = 1) {
   const a = t - t0; return { sq: -.26 * amt * Math.exp(-6 * a) * Math.cos(16 * a), dy: -1.2 * amt * Math.exp(-7 * a) * Math.max(0, Math.cos(9 * a)) };
 }
 // Walk from x0 to x1 (px) between t0 and t1, for a character of unit u: eases in and out, faces the way it's
-// going in 3/4 view, and faces front when it stops. Returns { x, walk, view, flip, dy } for clawd().
+// going in 3/4 view, and faces front when it stops. Returns { x, walk, view, flip, dy } for grok().
 function stroll(t, t0, t1, x0, x1, u) {
   const x = lerp(x0, x1, ease(seg(t, t0, t1))), d = Math.abs(x - x0) / (4 * u), moving = t > t0 && t < t1;
   return { x, walk: d, view: moving ? 'q' : 'front', flip: x1 < x0, dy: moving ? -Math.abs(Math.sin(d * Math.PI)) * .5 : 0 };
@@ -203,7 +204,7 @@ function inkLine(pts, sw = 1, col = PAL.ink, br = 'ink', curv = .5) {
 }
 
 // ---------- lettering (drawn on the 2D compositor, under the paper grain) ----------
-// Use sparingly: see "No text" in ANIMATION_GUIDE.md. Clawd's emotes are painted and never need these.
+// Use sparingly: see "No text" in ANIMATION_GUIDE.md. Grok's emotes are painted and never need these.
 function letter(txt, x, y, size, color, o = {}) {
   if (CAM && !o.screen) { [x, y] = toScreen(x, y); size *= CAM.zoom; o = { ...o, rot: (o.rot || 0) + CAM.rot }; if (o.font) o.font = o.font.replace(/(\d+(\.\d+)?)px/, (m, v) => (v * CAM.zoom) + 'px'); }
   LETTERS.push({ txt, x, y, size, color, ...o });
@@ -285,7 +286,7 @@ function draw() {
   if (!window.ready) return;
   LETTERS = []; CAM = LAST_CAM = null;
   push(); translate(-W / 2, -H / 2);
-  BOILN = Math.floor(T * BOIL); CLAWD_N = 0; boilSeed('frame'); noiseSeed(77);
+  BOILN = Math.floor(T * BOIL); GROK_N = 0; boilSeed('frame'); noiseSeed(77);
   image(paperG, 0, 0);
   drawWorld(T);
   pop();

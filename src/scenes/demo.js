@@ -1,8 +1,8 @@
 // demo.js: "The fallen star", an 11-second example that exercises the kit. It is one idea, not a template: don't
 // copy its story, staging or palette into your own video (see ANIMATION_GUIDE.md).
-//   Shot A (0–4.4 s): Clawd dozes on a hill at night. A star falls behind the next hill. Clawd wakes, has an idea,
+//   Shot A (0–4.4 s): Grok dozes on a hill at night. A star falls behind the next hill. Grok wakes, has an idea,
 //                     turns (drawn key views) and trots off after it. Brush wipe.
-//   Shot B (4.4–11 s): Clawd finds the star dim and sad in the grass, lifts it, and throws it back into the sky, where
+//   Shot B (4.4–11 s): Grok finds the star dim and sad in the grass, lifts it, and throws it back into the sky, where
 //                     it lights up again and twinkles goodbye. Iris out.
 (() => {
   const NIGHT = [PAL.indigo, PAL.violet];   // wipe colours, the same on both sides of the cut
@@ -78,16 +78,16 @@
     hill(1560, 900, 820, 260, mixCol(PAL.teal, PAL.night, .45), t, 10);
     hill(...FRONT, mixCol(PAL.sap, PAL.night, .35), t, 16);
 
-    // Clawd: dozing → startled → the idea → a turn through the key views → a trot down the hill after it
+    // Grok: dozing → startled → the idea → a turn through the key views → a trot down the hill after it
     const u = 17, x0 = 760, walk = stroll(t, 3.05, 4.7, x0, 1520, u);
     const x = t < 3.05 ? x0 : walk.x, gy = hillY(x, ...FRONT) + 4;
     const mood = emotions(t, [[0, 'sleepy'], [tLand + .05, 'surprised', { lookX: .8 }], [2.55, 'idea'], [3.1, 'excited']]);
     const facing = t < 2.9 ? {} : t < 3.05 ? turn(t, 2.9, 3.05, 0, .25) : { view: 'side', walk: walk.walk, dy: (mood.dy || 0) * .4 + walk.dy };
     const slope = (hillY(x + 5, ...FRONT) - hillY(x - 5, ...FRONT)) / 10;
-    clawd(x, gy, u, { ...mood, ...facing, rot: (mood.rot || 0) + Math.atan(slope) * .8 });
-    const eye = toScreen(x, gy - 4 * u);   // screen position of Clawd, for the iris
+    grok(x, gy, u, { ...mood, ...facing, rot: (mood.rot || 0) + Math.atan(slope) * .8 });
+    const eye = toScreen(x, gy - 5.5 * u);   // screen position of Grok, for the iris
     camEnd();
-    if (lt < .5) iris(...eye, lerp(0, 1500, easeIn(lt / .5)));   // open on Clawd
+    if (lt < .5) iris(...eye, lerp(0, 1500, easeIn(lt / .5)));   // open on Grok
     boilSeed('transition');
     if (lt > dur - .3) brushWipe((lt - (dur - .3)) / .6, NIGHT);
   }
@@ -95,9 +95,9 @@
   // ---------- shot B: the return ----------
   // The ending is timed as a sequence of reads, one at a time, each held long enough to land:
   //   the throw (fast) → the flight (0.8 s: the eye follows the star up, the camera eases back to give it sky) →
-  //   ARRIVAL, the payoff (the star flares and a twinkle ripples across the sky; Clawd only watches, held ~0.45 s) →
-  //   Clawd's REACTION (love, 0.45 s after the arrival: cause, then effect; held ~0.6 s) →
-  //   goodbye (Clawd waves; 0.45 s later the star twinkles back) → the iris closes to Clawd, holds, and shuts.
+  //   ARRIVAL, the payoff (the star flares and a twinkle ripples across the sky; Grok only watches, held ~0.45 s) →
+  //   Grok's REACTION (love, 0.45 s after the arrival: cause, then effect; held ~0.6 s) →
+  //   goodbye (Grok waves; 0.45 s later the star twinkles back) → the iris closes to Grok, holds, and shuts.
   function shotReturn(t, lt, dur) {
     const G = 880, u = 24;
     const tStop = 1.0, tLift = 1.9, tHold = 2.25, tWind = 2.55, tThrow = 2.7, tHome = 3.5, tLove = 3.95, tWave = 4.55, tReply = 5.0, tIris = 5.4;
@@ -118,7 +118,7 @@
     else if (lt < tThrow) {
       const up = backOut(seg(lt, tLift, tHold)), wind = ease(seg(lt, tWind, tThrow));
       pose = { aL: lerp(-.2, 1.45, up) - .5 * wind, aR: lerp(-.2, 1.45, up) - .5 * wind, sq: .2 * wind };
-    } else {   // follow-through: arms fly up with the throw, then settle while Clawd watches
+    } else {   // follow-through: arms fly up with the throw, then settle while Grok watches
       const a = lt - tThrow, arms = 1.5 - 1.0 * ease(seg(a, .3, .8));
       pose = { aL: arms, aR: arms, sq: -.22 * Math.exp(-a * 7) * Math.cos(a * 18), dy: -1.2 * Math.exp(-a * 6) * Math.max(0, Math.cos(a * 9)) };
     }
@@ -128,11 +128,11 @@
       cl.dy = (pose.dy || 0) + (mood.dy || 0) * seg(lt, tThrow + .3, tHome);
       cl.aL = lerp(pose.aL, mood.aL ?? .2, back); cl.aR = lerp(pose.aR, mood.aR ?? .2, back);
     }
-    if (lt > tWave) cl.aL = lerp(cl.aL, 1.2 + .5 * Math.sin((lt - tWave) * 13), ease(seg(lt, tWave, tWave + .2)));   // waving goodbye, with the left arm: the hearts sit by the right one
-    clawd(x, G, u, cl);
+    if (lt > tWave) cl.aR = lerp(cl.aR, 1.2 + .5 * Math.sin((lt - tWave) * 13), ease(seg(lt, tWave, tWave + .2)));   // waving goodbye, with the right arm: the hearts sit by the left one
+    grok(x, G, u, cl);
 
     // the star: sad in the grass → lifted overhead, brightening → thrown home along an arc → home, twinkling back
-    const head = [x, G + (cl.dy || 0) * u - 8 * u * (1 - (cl.sq || 0)) - 46];
+    const head = [x, G + (cl.dy || 0) * u - 10.2 * u * (1 - (cl.sq || 0)) - 34];
     const ground = [1080, G - 30], home = [1440, 150];
     if (lt < tLift) starling(...ground, 38, { glow: .15 + .5 * seg(lt, 1.45, 1.9), sad: lt < 1.6, rot: -.15 + .04 * Math.sin(lt * 3) });
     else if (lt < tThrow) {
@@ -149,11 +149,11 @@
       sparkle(...home, 80, seg(lt, tReply, tReply + .45));
       starling(...home, 22 * (1 + .3 * clamp(flare)), { glow: .85 + .15 * Math.sin(a * 6), rot: .1 * Math.sin(a * 3) });
     }
-    const eye = toScreen(x, G - 4 * u);
+    const eye = toScreen(x, G - 5.5 * u);
     camEnd();
     boilSeed('transition');
     if (lt < .3) brushWipe(.5 + lt / .6, NIGHT);
-    if (lt > tIris) {   // iris to a small circle on Clawd, hold a moment, then shut
+    if (lt > tIris) {   // iris to a small circle on Grok, hold a moment, then shut
       const r = lt < tIris + .5 ? lerp(1500, 250, ease(seg(lt, tIris, tIris + .5))) : lt < dur - .3 ? lerp(250, 232, seg(lt, tIris + .5, dur - .3)) : lerp(232, 0, easeIn(seg(lt, dur - .3, dur - .05)));
       iris(...eye, r);
     }
