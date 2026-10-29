@@ -1,12 +1,12 @@
 # Grok Animation Base
 
-This is a small starter kit with code, instructions and assets for animating a character in [p5.js](https://p5js.org) and [p5.brush](https://github.com/acamposuribe/p5.brush) with Claude Opus 5.5. It's the Claude Animation Base kit with its character, Clawd, swapped for Grok: the Grok logo as a character, a dark orb with the logo's broken cream ring and its slash poking out as two tips. It's based on the code from the music video [I'm Upping My P(doom)](https://github.com/JohnHeibel/PDoomVideo) and an analysis of what the model did and didn't do well. I highly recommend playing around with your prompting: make it give you the storyboard before coding, give it very broad instructions, try being very specific, ask for subagents, and try a bunch of other fun ways of testing the model's capabilities. In my testing, it can do a lot with very little, but it's also quite accurate when you give it more requirements. Also try asking the model to swap out the character or make new emotions or costumes, give it your own reference images, and try many other fun things like that. I've found that the reasoning level corresponds to how "extravagant" and detail-oriented the model makes the scene. All test videos were generated with Opus 5.5 on xhigh reasoning in Claude Code.
+This is a small starter kit with code, instructions and assets for animating a character in [p5.js](https://p5js.org) and [p5.brush](https://github.com/acamposuribe/p5.brush) with an AI coding agent. Its character is Grok: the Grok logo as a character, a dark orb with the logo's broken cream ring and its slash poking out as two tips. It's based on the code from the music video [I'm Upping My P(doom)](https://github.com/JohnHeibel/PDoomVideo) and an analysis of what the model did and didn't do well. I highly recommend playing around with your prompting: make it give you the storyboard before coding, give it very broad instructions, try being very specific, ask for subagents, and try a bunch of other fun ways of testing the model's capabilities. In my testing, it can do a lot with very little, but it's also quite accurate when you give it more requirements. Also try asking the model to swap out the character or make new emotions or costumes, give it your own reference images, and try many other fun things like that. I've found that the reasoning level corresponds to how "extravagant" and detail-oriented the model makes the scene.
 
 ![Grok's emotions, animated](docs/emotions.webp)
 
 ## Make a video
 
-Clone it, open it in Claude Code (or any coding agent) and ask for what you want:
+Clone it, open it in a coding agent and ask for what you want:
 
 > Read ANIMATION_GUIDE.md, then make a 15-second video of Grok trying to catch a butterfly.
 
