@@ -1,10 +1,10 @@
-# Animating Clawd
+# Animating Grok
 
-Read this whole file before you draw anything. It covers how to make a short, hand-painted cartoon, starring Clawd or any character you design: the rules and animation principles that make it look good, the workflow that catches mistakes, and the full reference for the character and the engine.
+Read this whole file before you draw anything. It covers how to make a short, hand-painted cartoon, starring Grok or any character you design: the rules and animation principles that make it look good, the workflow that catches mistakes, and the full reference for the character and the engine.
 
 The person prompting you decides **what** the video is about. This guide decides **how** it's made. If they ask for something the rules below forbid (a caption, a 3D spin), do what they ask.
 
-**No design here is final.** Clawd, the emotions, the props and the helpers are a starting point, not a limit. Change any of them, Clawd's own design included, and add whatever new characters, props or emotions the idea needs. Paint new things with the same tools and rules, so they belong with the rest.
+**No design here is final.** Grok, the emotions, the props and the helpers are a starting point, not a limit. Change any of them, Grok's own design included, and add whatever new characters, props or emotions the idea needs. Paint new things with the same tools and rules, so they belong with the rest.
 
 Look at the model sheets first:
 - [docs/emotions.jpg](docs/emotions.jpg): all 31 emotions.
@@ -28,22 +28,22 @@ Underneath all three, the viewer has to be able to follow it. Timing (rule 4) is
 
 - **Paint everything with p5.brush through `paint()` and `inkLine()`.** Characters get flat `wash` colour plus an ink outline. Backgrounds get soft watercolour `fill` shapes, usually with no outline or a thin one. Never use plain p5 shapes (`rect`, `ellipse`, `fill()`): they look like 2000s Flash.
 - **The linework boils.** `jit()` and `random()` are reseeded 12 times a second (`BOIL`), so every drawing wobbles slightly, like hand-drawn animation. That's the look; don't fight it. For anything that must stay put from frame to frame (star positions, tuft heights), use `hash(i)`. Give each separate element its own seed with `boilSeed(key)` (see Engine), or one moving thing makes everything drawn after it jitter.
-- **Everything is flat 2D. Never project 3D.** Don't rotate a box in perspective, don't use `rotateY` or WEBGL 3D and don't fake depth with math. Clawd turns through **drawn key views** (front → 3/4 → side → back 3/4 → back), exactly like a cartoon model sheet: see `turn()` and `spinView()`. Depth comes from overlap, scale and colour (farther = smaller, bluer, paler), never from a projection.
+- **Everything is flat 2D. Never project 3D.** Don't rotate a box in perspective, don't use `rotateY` or WEBGL 3D and don't fake depth with math. Grok turns through **drawn key views** (front → 3/4 → side → back 3/4 → back), exactly like a cartoon model sheet: see `turn()` and `spinView()`. Depth comes from overlap, scale and colour (farther = smaller, bluer, paler), never from a projection.
 - **Light is the one exception.** p5.brush mixes colour like pigment, so a yellow glow painted over blue turns green, and a thin wash over it turns grey. Use `glow()` for anything that shines: it adds real light, under the paper grain.
-- **Soft palette, no pure black or white.** Use `PAL.ink` for black and `PAL.cream` or `PAL.paper` for white. Keep colours soft and harmonious, and keep Clawd clearly readable against the background.
+- **Soft palette, no pure black or white.** Use `PAL.ink` for black and `PAL.cream` or `PAL.paper` for white. Keep colours soft and harmonious, and keep Grok clearly readable against the background. Grok is dark: on a night scene its cream rim, tips and eyes carry it, so keep them in view; never put it on a ground the same slate as its body.
 
 ### 2. No text
 
 - **Show it, don't write it.** Models overuse text. No captions, no titles, no labels on objects, no signs, no speech bubbles with words, no words on screens, no "ZZZ" typed in a font.
-- **Clawd's reactions are painted marks, never letters**: `!`, `?`, zzz, sweat, hearts, a bulb, a rain cloud. Use the emotes (see the reference).
-- **A sign that repeats the story is the classic failure.** If Clawd holds a sign saying "I'm lost", the shot has failed. Show Clawd being lost: looking left, then right, the map upside down, a sweat drop.
+- **Grok's reactions are painted marks, never letters**: `!`, `?`, zzz, sweat, hearts, a bulb, a rain cloud. Use the emotes (see the reference).
+- **A sign that repeats the story is the classic failure.** If Grok holds a sign saying "I'm lost", the shot has failed. Show Grok being lost: looking left, then right, the map upside down, a sweat drop.
 - If the prompt truly needs a word (a name, a shop sign that is the joke), use `letter()`. Paint it into the scene, keep it to one or two words and use it once.
 
 ### 3. Something happens in every scene
 
-- **Every shot needs an event:** something changes between its first frame and its last. Clawd wants something, finds something, tries, fails, reacts or gets it. "Clawd stands in a meadow being cute" is not a shot.
+- **Every shot needs an event:** something changes between its first frame and its last. Grok wants something, finds something, tries, fails, reacts or gets it. "Grok stands in a meadow being cute" is not a shot.
 - **One focal action at a time.** Stage it with a clear silhouette and nothing competing for attention, so it reads at a glance.
-- **Cause, then reaction.** When something happens, Clawd reacts to it: a take, an emotion change, a turn toward it. The reaction is often the funniest part, so give it time.
+- **Cause, then reaction.** When something happens, Grok reacts to it: a take, an emotion change, a turn toward it. The reaction is often the funniest part, so give it time.
 - **Pay it off.** Whatever you set up in a shot (a door, a sandwich, a strange noise) gets resolved on screen, in that shot or a later one.
 
 ### 4. Timing: model the viewer
@@ -65,7 +65,7 @@ For a worked example, see how the demo times its ending, at the end of this guid
 - **Nothing is ever still.** Every emotion has its own idle motion (`feel()`), cameras drift or push, grass sways, stars twinkle and the linework boils. A frozen frame reads as a bug.
 - **Faces act, they never snap.** Change moods with `emotions()`. It does anticipation, a squint, a take and overshoot around every change. Never swap `eyes`/`mouth` by hand between two frames.
 - **Move like a cartoon, not a machine.** Every move follows the animation principles in the next section.
-- **Clawd is big.** In a medium shot, `u` is about 20–28 (Clawd is 10u wide, 8u tall). In a close-up it's 40–70. Tiny Clawds (u < 12) are for wide establishing shots only, and never for the whole video.
+- **Grok is big.** In a medium shot, `u` is about 20–28 (Grok is 9u wide, 10u tall). In a close-up it's 40–70. Tiny Groks (u < 12) are for wide establishing shots only, and never for the whole video.
 - **Everything moves on a beat.** `PROJECT.bpm` drives every idle, bounce and dance, so the whole film shares one pulse. Put the hits on beats (`pulse()`, `beatN()`), even with no music.
 
 ### 6. Transitions always
@@ -85,10 +85,10 @@ For a worked example, see how the demo times its ending, at the end of this guid
 ### 7. One piece: a vision before any code
 
 - **Storyboard first**, in writing, before you write any scene code (the workflow below has the format). If you're working with a person, show them the storyboard and let them react before you build.
-- **One world.** Pick a palette and a setting that carries through, with a colour arc across the video (e.g. cold night → warm dawn as Clawd's mood lifts).
-- **One thread.** The story has a beginning, a middle and an end, and Clawd's emotional arc follows it. Plan the emotion keys across the whole video, not per shot.
+- **One world.** Pick a palette and a setting that carries through, with a colour arc across the video (e.g. cold night → warm dawn as Grok's mood lifts).
+- **One thread.** The story has a beginning, a middle and an end, and Grok's emotional arc follows it. Plan the emotion keys across the whole video, not per shot.
 - **Rhyme the ending with the opening:** the same place, pose or motif, changed. It makes the film feel whole.
-- **Link scenes:** motion continues across cuts, and screen direction stays consistent (if Clawd travels right, keep travelling right). Props and characters carry over.
+- **Link scenes:** motion continues across cuts, and screen direction stays consistent (if Grok travels right, keep travelling right). Props and characters carry over.
 
 ---
 
@@ -117,12 +117,12 @@ These are the classic principles of character animation, as they apply here. Mos
 Write `STORYBOARD.md` before any scene code:
 
 ```
-Logline: one sentence. Clawd wants ___, but ___, so ___.
+Logline: one sentence. Grok wants ___, but ___, so ___.
 World: setting, a small palette, light, how the colour changes across the video.
 Motif: the thing that recurs and pays off.
-Clawd's arc: the emotion keys across the whole video.
+Grok's arc: the emotion keys across the whole video.
 Shots:
-  A  start–end  [transition in: ___]  what's seen · the EVENT · Clawd's reaction · camera
+  A  start–end  [transition in: ___]  what's seen · the EVENT · Grok's reaction · camera
      reads:  start–end  the first thing the viewer must understand
              start–end  the next one (where is the viewer's eye when it starts?)
              ...
@@ -156,8 +156,8 @@ Check the storyboard against the rules:
     paint(ellPts(960, 1150, 1400, 380, 40, 2), { wash: PAL.sap, ink: PAL.ink, sw: 1 });   // ground
     const mood = emotions(lt, [[0, 'bored'], [1.2, 'surprised'], [1.7, 'excited']]);      // acted changes
     const hop = jump(lt, 2.2, 2.7, 3);                                                    // add poses that share fields
-    clawd(960, 860, 26, { ...mood, dy: mood.dy + hop.dy, sq: mood.sq + hop.sq });
-    const at = toScreen(960, 860 - 4 * 26);          // Clawd's screen position, for the iris
+    grok(960, 860, 26, { ...mood, dy: mood.dy + hop.dy, sq: mood.sq + hop.sq });
+    const at = toScreen(960, 860 - 5.5 * 26);        // Grok's screen position, for the iris
     camEnd();
     if (lt < .45) iris(...at, lerp(0, 1500, easeIn(lt / .45)));            // transition in
     if (lt > dur - .3) brushWipe((lt - (dur - .3)) / .6);                 // transition out (next shot finishes it)
@@ -184,7 +184,7 @@ node render.mjs --strip=2.1:2.6 --crop-at=960,700,500,400 --out=out/check/feet.j
 
 Open each image and actually look at it. Check:
 
-- **Read:** is the event of each shot clear from its sheet alone? Is Clawd big enough, and does Clawd separate from the background?
+- **Read:** is the event of each shot clear from its sheet alone? Is Grok big enough, and does Grok separate from the background?
 - **Timing.** You can't judge timing from single frames, so read it like a viewer:
   - Render the shot as a sheet at a fixed step (every 0.1–0.15 s) and read it in order.
   - At each frame ask: where is the viewer looking right now, and do they understand it yet?
@@ -217,7 +217,7 @@ node render.mjs --encode --out=out/video.mp4                    # … then encod
 |---|---|
 | `src/config.js` | `PROJECT = { duration, bpm, offset, audio? }` |
 | `src/core.js` | canvas, palette, timing and motion helpers, `paint()`, camera, full-frame effects, `glow()`, lettering, paper, render hooks |
-| `src/clawd.js` | Clawd: views, emotions, eyes, mouths, hats, emotes, moves |
+| `src/grok.js` | Grok: views, emotions, eyes, mouths, hats, emotes, moves |
 | `src/timeline.js` | `shots()`, `LOOPS`, `brushWipe()` |
 | `src/sheets.js` | the model sheets as loops (`?loop=emotions`, `?loop=views`) |
 | `src/scenes/demo.js` | an 11-second example. **Don't copy it** (see the end of this guide) |
@@ -231,7 +231,7 @@ node render.mjs --encode --out=out/video.mp4                    # … then encod
 - **Seed each element with `boilSeed(key)`.** Each boil drawing holds for two frames, so anything that isn't moving must draw the same in both. But a moving thing uses a different amount of randomness each frame, which shifts the stream for everything drawn after it, and all of that re-boils every frame and looks jittery.
   - `boilSeed(key)` restarts the stream from the boil frame and a key that stays the same every frame (any string or number, unique within the frame).
   - Call it before each separate element: each background layer, prop and effect.
-  - `clawd()` seeds itself and each of its parts, then reseeds when it's done, so nothing drawn after it depends on its pose. Its key is its call order; set `boilKey` if characters come and go mid-shot.
+  - `grok()` seeds itself and each of its parts, then reseeds when it's done, so nothing drawn after it depends on its pose. Its key is its call order; set `boilKey` if characters come and go mid-shot.
 - **Each shot paints the whole frame,** background included. The paper texture is under everything and the grain is multiplied over the top, so leaving paper showing is a valid look.
 - **Canvas:** 1920×1080, origin top-left, y down.
 - `LOOPS.name = t => {...}; LOOPS.name.len = 4;` makes a standalone loop (tests, GIFs, sheets), rendered with `--loop=name`.
@@ -259,7 +259,7 @@ node render.mjs --encode --out=out/video.mp4                    # … then encod
   - `ribbon(P, w0, w1)`: a tapered ribbon along a path, as one outline. Use it for tails, trails, vines and noodly arms.
 - **One shape, one outline.** Build a creature or prop from as few outlines as you can, so it doesn't look like glued-on stickers: a tail is one `ribbon`, not five circles.
 - **Light:** `glow(x, y, r, colour, a)`. It's additive, so it stays warm on dark grounds and barely shows on light ones (as real light would). Draw it before the things that sit in front of the light.
-- **Palette** `PAL`: `paper, ink, clay, clayDk, clayLt, night, indigo, rose, ochre, sap, teal, violet, cream, sky`. `mixCol(a, b, k)` mixes two hex colours in RGB. Any hex colour works: pick a small palette per video.
+- **Palette** `PAL`: `paper, ink, slate, slateDk, slateLt, clay, clayDk, clayLt, night, indigo, rose, ochre, sap, teal, violet, cream, sky`. `mixCol(a, b, k)` mixes two hex colours in RGB. Any hex colour works: pick a small palette per video.
 - **p5.brush quirks:**
   - Colours mix like pigment: yellow over blue makes green. Layer light colours over dark ones with a full-opacity `wash`, or use `glow()`.
   - `wash` at 255 is exact colour; lower opacities mix.
@@ -306,15 +306,15 @@ node render.mjs --encode --out=out/video.mp4                    # … then encod
 
 ---
 
-## Clawd
+## Grok
 
-Clawd is the Claude Code mascot: a terracotta block (`PAL.clay`), 10 units wide and 6 tall, with four stubby legs, two little arm nubs and two tall slit eyes. There's no mouth at rest. It's drawn in flat wash with an ink outline and boils like everything else. That's the default design, not a rule: change it if the idea needs it. Within one video, though, keep every character on model, with the same shape and features in every shot.
+Grok is the Grok logo as a character: a dark slate orb (`PAL.slate`), 9 units across, ringed by the logo's broken cream rim, with the logo's slash poking out behind it as two tapered tips (top-right and bottom-left). It has two stubby legs, two little arm nubs and two glowing cream slit eyes. There's no mouth at rest. It's drawn in flat wash with an ink outline and boils like everything else. That's the default design, not a rule: change it if the idea needs it. Within one video, though, keep every character on model, with the same shape and features in every shot.
 
 ```js
-clawd(x, y, u, options)   // (x, y) = ground point between the feet; u = size unit
+grok(x, y, u, options)   // (x, y) = ground point between the feet; u = size unit
 ```
 
-**Sizes:** Clawd is 10u × 8u (legs included).
+**Sizes:** Grok is 9u × 10u (legs included); the top tip reaches a little higher.
 
 | shot | u | on screen |
 |---|---|---|
@@ -327,14 +327,14 @@ clawd(x, y, u, options)   // (x, y) = ground point between the feet; u = size un
 
 | group | options |
 |---|---|
-| pose | `dx`, `dy` (in u; −dy = up), `sq` (squash; negative stretches), `rot` (pivots at the feet), `flip`, `sx`, `sy`, `aL`, `aR` (arm angle: 0 = straight out, + = up, − = down; ±1.5 is vertical), `walk` (leg phase), `noLegs`, `noShadow` |
+| pose | `dx`, `dy` (in u; −dy = up), `sq` (squash; negative stretches), `rot` (pivots at the feet), `flip`, `sx`, `sy`, `aL`, `aR` (arm angle: 0 = straight out, + = up, − = down; ±1.5 is vertical), `walk` (leg phase), `tip` (+ droops the slash's tips, − perks them up), `noLegs`, `noShadow` |
 | view | `view`: front, q, side, qback, back. `smear` 0..1 + `smearDir` ±1 (0 = both sides) for fast moves |
 | face | `eyes`, `mouth`, `lookX`/`lookY` (−1..1), `squint` 0..1, `blush` 0..1, `gloom` 0..1, `lid` 0..1, `seed` (blink timing) |
 | colour | `tint` (pale, flush, blue, rosy, green, gold, or any hex) + `tintK`, or `col`/`dk`/`lt` directly |
 | extras | `hat`, `emote` + `emoteK` (0..1 pop) + `emoteAge`, `draw(u, sw)`, `armL(u, sw)`, `armR(u, sw)` |
 | boil | `boilKey`: a stable id for its boil seeds (default: call order) |
 
-Options compose by spreading: `clawd(x, y, u, { ...feel('happy', t), ...turn(t, 1, 1.15, 0, .25), hat: 'party' })`. Later spreads win, so put the emotion first and the pose after it. If both an emotion and a pose move the same field (`dy`, `sq`), add them together rather than letting one silently replace the other.
+Options compose by spreading: `grok(x, y, u, { ...feel('happy', t), ...turn(t, 1, 1.15, 0, .25), hat: 'party' })`. Later spreads win, so put the emotion first and the pose after it. If both an emotion and a pose move the same field (`dy`, `sq`), add them together rather than letting one silently replace the other.
 
 ### Views and turns
 
@@ -343,7 +343,7 @@ These are drawn key views. Every view faces screen-right; add `flip: true` to fa
 | view | what you see |
 |---|---|
 | `front` | the face, both arms, four legs |
-| `q` | 3/4: the face shifted toward the heading, the side face as a darker strip behind it |
+| `q` | 3/4: the face shifted toward the heading, the back of the orb in shadow |
 | `side` | profile: one eye near the leading edge, one arm |
 | `qback` | 3/4 from behind: no face |
 | `back` | no face |
@@ -357,9 +357,9 @@ These are drawn key views. Every view faces screen-right; add `flip: true` to fa
 31 emotions. Each is a face, a colour and a way of moving, all locked to the beat. `feel(name, t, over)` returns all of it at time t:
 
 ```js
-clawd(x, y, u, feel('happy', t));                                   // one emotion, alive
-clawd(x, y, u, feel('sad', t, { view: 'q', lookX: -1 }));             // with overrides
-clawd(x, y, u, emotions(t, [[0, 'sleepy'], [1.9, 'surprised', { lookX: .8 }], [2.5, 'idea']]));   // acted changes
+grok(x, y, u, feel('happy', t));                                   // one emotion, alive
+grok(x, y, u, feel('sad', t, { view: 'q', lookX: -1 }));             // with overrides
+grok(x, y, u, emotions(t, [[0, 'sleepy'], [1.9, 'surprised', { lookX: .8 }], [2.5, 'idea']]));   // acted changes
 ```
 
 | family | emotions |
@@ -367,24 +367,26 @@ clawd(x, y, u, emotions(t, [[0, 'sleepy'], [1.9, 'surprised', { lookX: .8 }], [2
 | joy | happy, excited, laugh, love, proud, starstruck, playful, hopeful, relieved |
 | sly | smug, cool, mischief, suspicious |
 | low | sad, cry, bored, sleepy, ko |
-| hot | angry, furious (the lunchbox lid opens), determined, disgusted |
+| hot | angry, furious (the flip-top lid opens), determined, disgusted |
 | alarm | scared, nervous, surprised, confused, dizzy |
 | mind | neutral, thinking, idea, shy |
 
 - **`emotions(t, keys)`** is how moods change in a shot. Around each key it squints and squashes just before the change (anticipation), swaps the face under the squint, and fires a take sized to the new emotion. The body then settles into the new motion with overshoot, colour cross-fades and the new emote pops in.
   - `emotions(t, keys, { take: .5 })` scales every take.
   - The third element of a key overrides fields for that stretch (e.g. `{ lookX: .8, emote: 'music' }`).
-- To make a new emotion, add an entry to `EMO` in clawd.js. It needs eyes, mouth, optional tint/blush/gloom/lid/emote, `take` (reaction size) and `body(t)` (its idle motion, locked to the beat through `_b(t)`).
+- To make a new emotion, add an entry to `EMO` in grok.js. It needs eyes, mouth, optional tint/blush/gloom/lid/emote, `take` (reaction size) and `body(t)` (its idle motion, locked to the beat through `_b(t)`).
 
 ### Parts
 
 - **Eyes:** normal, look, wide, happy, closed, sleepy, wink, narrow, angry, determined, sad, teary, cry, squeeze, shine, scared, blank, spark, red, heart, x, swirl, dot, shades.
   - A pair gives mismatched eyes, e.g. `['narrow', 'wide']`.
   - `lookX`/`lookY` aim the pupils, and `squint` closes the eyes from any shape.
-- **Mouths:** o, O, smile, grin, flat, wobble, cat, frown, smirk, laugh, open, wail, teeth, tongue, pout, yawn. Use `null` for none (Clawd's resting face).
-- **Lunchbox lid:** `lid` 0..1 hinges the top of the body open, with teeth pointing into the mouth. It's for fury, chomping and shouting, in the front view only.
+- **Mouths:** o, O, smile, grin, flat, wobble, cat, frown, smirk, laugh, open, wail, teeth, tongue, pout, yawn. Use `null` for none (Grok's resting face).
+- **Flip-top lid:** `lid` 0..1 hinges the top of the orb open at its left end, with teeth pointing into the mouth. It's for fury, chomping and shouting, in the front view only.
+- **Tips:** the logo's slash pokes out behind the orb as two tapered tips, and they act like ears. `tip` (radians) droops them (+) or perks them up (−). Every emotion sets its own (sad and sleepy droop, surprised and scared perk up), and squash and stretch push them around, so they follow through on takes and landings by themselves.
+- **Rim:** the cream ring around the edge is Grok's logo. It stays cream whatever the tint, and it's what keeps Grok readable on dark grounds.
 - **Hats:** party, hard, crown, halo, wizard, hood, top, fedora, band, sweatband, beanie, bow, flower, headphones, cat (ears and whiskers). Face pieces: masq, mask, bowtie.
-- **Emotes** are painted marks that pop in by the head: `!` `?` `!!` `!?` zzz, sweat, spark, heart, hearts, anger, steam, bulb, dots, scribble, music, swirl, stars, cloud.
+- **Emotes** are painted marks that pop in over the head or by its top-left (away from the top tip): `!` `?` `!!` `!?` zzz, sweat, spark, heart, hearts, anger, steam, bulb, dots, scribble, music, swirl, stars, cloud.
   - `emoteK` is the 0..1 pop and `emoteAge` drives the looping ones; `emotions()` sets both.
   - `emote(kind, x, y, s, k, age)` draws one anywhere, for example over a prop.
 - **Body colour:**
@@ -393,21 +395,21 @@ clawd(x, y, u, emotions(t, [[0, 'sleepy'], [1.9, 'surprised', { lookX: .8 }], [2
 
 ### Hooks: props and accessories
 
-- **`draw(u, sw)`** paints in body-local space, on top of everything else on the body (face, hat, near arm). It squashes, flips and rotates with Clawd. Front-view coordinates:
-  - the body spans x −5u..5u and y −8u..−2u
-  - the eyes are at (±2.5u, −6u)
+- **`draw(u, sw)`** paints in body-local space, on top of everything else on the body (face, hat, near arm). It squashes, flips and rotates with Grok. Front-view coordinates:
+  - the orb is centred at (0, −5.7u) with radius 4.5u, so it spans x −4.5u..4.5u and y −10.2u..−1.2u
+  - the eyes are at (±1.9u, −6.4u)
   - the mouth is near (0, −4.3u)
 - **`armL(u, sw)` / `armR(u, sw)`** are called at the arm tip, in arm space (+x runs outward along the arm), so a held prop just draws around (0, 0) and follows the arm automatically:
 
 ```js
-clawd(x, y, 24, { ...feel('proud', t), aR: 1.2, armR: (u, sw) => paint(starPts(u * .8, 0, u * 1.4, .5, 5), { wash: '#FFE27A', sw }) });
+grok(x, y, 24, { ...feel('proud', t), aR: 1.2, armR: (u, sw) => paint(starPts(u * .8, 0, u * 1.4, .5, 5), { wash: '#FFE27A', sw }) });
 ```
 
 - Anything the arms can't carry, like a big object overhead, is drawn separately at a point computed from the same pose. The demo's star does this. Make sure it touches: check it with a crop.
 
 ### Dances
 
-`move(style, t, seed)` returns beat-locked pose offsets. The styles are bounce, hop, roof (arms up), sway, spin (a drawn spin through the key views once a bar), wave, walk, run, idle, stomp and shimmy. `mix` changes style every two bars. `dancer(x, y, u, style, t, extra)` is `clawd` + `move`. You can combine a dance with a face: `{ ...move('bounce', t), eyes: 'happy', mouth: 'grin' }`.
+`move(style, t, seed)` returns beat-locked pose offsets. The styles are bounce, hop, roof (arms up), sway, spin (a drawn spin through the key views once a bar), wave, walk, run, idle, stomp and shimmy. `mix` changes style every two bars. `dancer(x, y, u, style, t, extra)` is `grok` + `move`. You can combine a dance with a face: `{ ...move('bounce', t), eyes: 'happy', mouth: 'grin' }`.
 
 ---
 
@@ -422,13 +424,13 @@ The kit doesn't need music, but it's built for it:
 
 ## Common failures
 
-These are the things that make a Clawd video look generated. Check your storyboard and sheets against them:
+These are the things that make a Grok video look generated. Check your storyboard and sheets against them:
 
 - signs, captions, labels or speech bubbles with words
-- Clawd standing still and smiling while nothing happens
+- Grok standing still and smiling while nothing happens
 - everything moving at one brisk speed, with events stacked on top of each other and no holds
 - moments that are over before the viewer understands them
-- a tiny Clawd in a big empty landscape for the whole video
+- a tiny Grok in a big empty landscape for the whole video
 - faces that snap from one expression to another
 - mechanical motion: linear moves, every part moving at once, both arms or several characters in sync
 - timid poses and takes that barely read
@@ -451,11 +453,11 @@ This shows rule 4 applied to one shot of one video. The reads, the numbers and t
 | time | read | why it's timed this way |
 |---|---|---|
 | 6.95–7.1 | wind-up and throw | fast motion; it reads because the wind-up anticipates it |
-| 7.1–7.9 | the star flies home | long enough for the eye to follow it from Clawd to the top of the frame; the camera eases back to give it sky |
-| 7.9–8.35 | it arrives: a flare, a sparkle, the sky twinkles | the payoff. Clawd only watches, so nothing competes with it |
-| 8.35–8.95 | Clawd falls in love | the reaction starts only after the viewer has seen the cause |
-| 8.95–9.4 | Clawd waves goodbye | a new action, on its own |
+| 7.1–7.9 | the star flies home | long enough for the eye to follow it from Grok to the top of the frame; the camera eases back to give it sky |
+| 7.9–8.35 | it arrives: a flare, a sparkle, the sky twinkles | the payoff. Grok only watches, so nothing competes with it |
+| 8.35–8.95 | Grok falls in love | the reaction starts only after the viewer has seen the cause |
+| 8.95–9.4 | Grok waves goodbye | a new action, on its own |
 | 9.4–9.8 | the star twinkles back | the answer to the wave |
-| 9.8–11.0 | iris to Clawd, hold, shut | the last read gets time to land before the video ends |
+| 9.8–11.0 | iris to Grok, hold, shut | the last read gets time to land before the video ends |
 
 The first version packed all of this into about 1.3 s, and nobody could tell what had happened.
