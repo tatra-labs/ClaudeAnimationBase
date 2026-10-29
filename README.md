@@ -4,6 +4,10 @@ This is a small starter kit with code, instructions and assets for animating a c
 
 ![Grok's emotions, animated](docs/emotions.webp)
 
+The original kit's character, Clawd, for comparison:
+
+![Clawd's emotions, animated](docs/clawd_emotions.webp)
+
 ## Make a video
 
 Clone it, open it in Claude Code (or any coding agent) and ask for what you want:
@@ -38,6 +42,6 @@ On Linux, `render.mjs` starts Chrome with `--no-sandbox` (Ubuntu 23.10+ blocks C
 | [src/config.js](src/config.js) | Length and tempo |
 | [src/scenes/](src/scenes/) | Your video goes here (the demo is an example) |
 | [render.mjs](render.mjs) | Headless renderer: contact sheets, frame strips, crops, stills, MP4 |
-| [docs/](docs/) | Model sheets: [emotions](docs/emotions.jpg) (also [animated](docs/emotions.webp)) and [views, motion and hats](docs/views.jpg) |
+| [docs/](docs/) | Model sheets: [emotions](docs/emotions.jpg) (also [animated](docs/emotions.webp)) and [views, motion and hats](docs/views.jpg), plus [Clawd's emotions](docs/clawd_emotions.webp) from the original kit |
 
 Grok and the Grok logo are trademarks of xAI. This is an unofficial fan kit, not affiliated with or endorsed by xAI.
